@@ -1,8 +1,11 @@
 package id.sch.smktelkom_mlg.project2.xirpl303131527.mynote;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,6 +34,29 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        BottomNavigationView bottomNavigationView = (BottomNavigationView)
+                findViewById(R.id.navigation_bottom);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        int id = item.getItemId();
+                        Fragment fragment = null;
+                        if (id == R.id.nav_camera) {
+                           fragment = new My();
+                        } else if (id == R.id.nav_gallery) {
+                            fragment = new Reminder();
+                        } else if (id == R.id.nav_slideshow) {
+                            fragment = new Goals();
+                        } else if (id == R.id.nav_manage) {
+                            fragment = new Event();
+                        }
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitNow();
+                        return true;
+                    }
+                });
     }
 
     @Override
@@ -70,21 +96,22 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+            Fragment fragment = null;
         if (id == R.id.nav_camera) {
+            fragment = new My();
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
-
+            fragment = new Reminder();
         } else if (id == R.id.nav_slideshow) {
-
+            fragment = new Goals();
         } else if (id == R.id.nav_manage) {
-
+            fragment = new Event();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
         }
-
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitNow();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
