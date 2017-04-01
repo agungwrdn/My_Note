@@ -1,5 +1,8 @@
 package id.sch.smktelkom_mlg.project2.xirpl303131527.mynote;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -23,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.About;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Event;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Goals;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.My;
@@ -120,18 +124,26 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
             Fragment fragment = null;
-        if (id == R.id.nav_camera) {
-            fragment = new My();
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-            fragment = new Reminder();
-        } else if (id == R.id.nav_slideshow) {
-            fragment = new Goals();
-        } else if (id == R.id.nav_manage) {
-            fragment = new Event();
-        } else if (id == R.id.nav_share) {
 
+        if (id == R.id.nav_share) {
+            fragment = new About();
         } else if (id == R.id.nav_send) {
+            fragment = new My();
+
+            new AlertDialog.Builder(this)
+                    .setTitle(getResources().getString(R.string.logout))
+                    .setMessage(getResources().getString(R.string.logout_message))
+                    .setCancelable(true)
+                    .setPositiveButton(getResources().getString(R.string.yes_option), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mAuth.signOut();
+
+                            Intent logout = new Intent(MainActivity.this, Splash.class);
+                            startActivity(logout);
+                            finish();
+                        }
+                    }).setNegativeButton(getResources().getString(R.string.cancel_option), null).show();
 
         }
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitNow();
