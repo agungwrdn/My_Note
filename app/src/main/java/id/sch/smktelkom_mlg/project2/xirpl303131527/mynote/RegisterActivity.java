@@ -42,8 +42,8 @@ public class RegisterActivity extends AppCompatActivity {
         mDBuser = mDB.getReference().child("user_info");
 
         tvRegTitle = (TextView) findViewById(R.id.textViewRegTitle);
-        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/yananeka.ttf");
-        tvRegTitle.setTypeface(custom_font);
+        //Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/yananeka.ttf");
+        //tvRegTitle.setTypeface(custom_font);
         tvRegTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
 
         etUsername = (EditText) findViewById(R.id.editTextRegUsername);

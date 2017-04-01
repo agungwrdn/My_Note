@@ -10,8 +10,18 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Event;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Goals;
@@ -20,6 +30,11 @@ import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Reminder;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    TextView tvUsernameDrawer, tvEmailDrawer;
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase mDB;
+    private DatabaseReference mDBuser;
+    String allMemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +74,12 @@ public class MainActivity extends AppCompatActivity
                         return true;
                     }
                 });
+        View hView = navigationView.getHeaderView(0);
+        tvUsernameDrawer = (TextView) hView.findViewById(R.id.textViewUsernameDrawer);
+        tvEmailDrawer = (TextView) hView.findViewById(R.id.textViewEmailDrawer);
+        mAuth = FirebaseAuth.getInstance();
+        mDB = FirebaseDatabase.getInstance();
+        mDBuser = mDB.getReference().child("user_info");
     }
 
     @Override
@@ -117,5 +138,54 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void retrieveData() {
+        //Mengambil data username yang login
+        DatabaseReference userName = mDBuser.child(mAuth.getCurrentUser().getUid()).child("username");
+        userName.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String username = dataSnapshot.getValue(String.class);
+                tvUsernameDrawer.setText(username);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //Mengambil data email yang login
+        DatabaseReference eMail = mDBuser.child(mAuth.getCurrentUser().getUid()).child("email");
+        eMail.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String email = dataSnapshot.getValue(String.class);
+                tvEmailDrawer.setText(email);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //Mengambil informasi jumlah notes
+        DatabaseReference dbNote = mDB.getReference().child("note").child(mAuth.getCurrentUser().getUid());
+        dbNote.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Long jumlahNote = dataSnapshot.getChildrenCount();
+                allMemo = Long.toString(jumlahNote);
+                Log.d("FirebaseCounter", allMemo);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

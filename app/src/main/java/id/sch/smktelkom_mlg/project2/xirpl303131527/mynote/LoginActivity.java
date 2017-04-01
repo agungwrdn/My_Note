@@ -53,8 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         tvLoginTitle = (TextView) findViewById(R.id.textViewLoginTitle);
-        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/yananeka.ttf");
-        tvLoginTitle.setTypeface(custom_font);
+        //Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/yananeka.ttf");
+        //tvLoginTitle.setTypeface(custom_font);
         tvLoginTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
 
         tvGoRegister = (TextView) findViewById(R.id.textViewGoRegister);

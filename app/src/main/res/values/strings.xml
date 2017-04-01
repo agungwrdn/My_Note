@@ -59,5 +59,17 @@
     <string name="del">Delete</string>
     <string name="del_message">Are you sure want to delete note ?</string>
     <string name="del_success">Note deleted</string>
+
+    <!--Add/Edit Note Activity-->
+    <string name="add_note">Add Note</string>
+    <string name="title">Title</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="content">Content</string>
+    <string name="charac">Character</string>
+    <string name="not_saved">Item not saved</string>
+    <string name="note_saved">Note saved</string>
+    <string name="edit_note">Edit Note</string>
+    <string name="no_notes">NO ITEM YET</string>
 </resources>
 
