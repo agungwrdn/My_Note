@@ -8,4 +8,56 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!--Login Register Activity-->
+    <string name="login_title">Login</string>
+    <string name="reg_title">Register</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="dont_have">Don\'t Have Account ? Register.</string>
+    <string name="already_have">Already Have an Account ? Login.</string>
+
+    <!--Validation message-->
+    <string name="username_empty">Username is required</string>
+    <string name="username6">Username min. 6 char</string>
+    <string name="email_notmatch">Email doesn\'t match format</string>
+    <string name="email_empty">Email is required</string>
+    <string name="password_empty">Password is required</string>
+    <string name="password8">Password min. 8 char</string>
+
+    <string name="please_wait">Loading ..</string>
+    <string name="success">Successful</string>
+    <string name="success_message">Registration successful, please login</string>
+    <string name="success1_message">Login successful, please login</string>
+    <string name="failed">Failed</string>
+    <string name="failed_message">Registration failed, please try again</string>
+    <string name="failed1_message">Login failed, please try again</string>
+
+    <!--Alert-->
+    <string name="logout">Logout</string>
+    <string name="logout_message">Are you sure want to logout ?</string>
+    <string name="alert">Alert</string>
+    <string name="back_alert">Are you sure want to exit ? Your change will not save</string>
+    <string name="yes_option">Yes</string>
+    <string name="cancel_option">Cancel</string>
+    <string name="del">Delete</string>
+    <string name="del_message">Are you sure want to delete note ?</string>
+    <string name="del_success">Note deleted</string>
 </resources>
+
