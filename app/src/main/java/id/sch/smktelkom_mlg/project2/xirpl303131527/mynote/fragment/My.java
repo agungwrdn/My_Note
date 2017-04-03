@@ -125,7 +125,6 @@ public class My extends Fragment {
                 final String note_key = getRef(position).getKey();
 
                 viewHolder.setContent(model.getContent());
-                viewHolder.setTime(model.getTime());
 
                 viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -161,9 +160,5 @@ public class My extends Fragment {
             noteContent.setText(content);
         }
 
-        public void setTime(String time) {
-            TextView noteTime = (TextView) mView.findViewById(R.id.note_time);
-            noteTime.setText(time);
-        }
     }
 }

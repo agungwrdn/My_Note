@@ -34,11 +34,10 @@ import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Reminder;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    TextView tvUsernameDrawer, tvEmailDrawer;
+    TextView tvUsernameDrawer;
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDB;
     private DatabaseReference mDBuser;
-    String allMemo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +79,11 @@ public class MainActivity extends AppCompatActivity
                 });
         View hView = navigationView.getHeaderView(0);
         tvUsernameDrawer = (TextView) hView.findViewById(R.id.textViewUsernameDrawer);
-        tvEmailDrawer = (TextView) hView.findViewById(R.id.textViewEmailDrawer);
         mAuth = FirebaseAuth.getInstance();
         mDB = FirebaseDatabase.getInstance();
         mDBuser = mDB.getReference().child("user_info");
+
+        retrieveData();
     }
 
     @Override
@@ -125,9 +125,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
             Fragment fragment = null;
 
-        if (id == R.id.nav_share) {
+        if (id == R.id.nav_about) {
             fragment = new About();
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
             fragment = new My();
 
             new AlertDialog.Builder(this)
@@ -160,37 +160,6 @@ public class MainActivity extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String username = dataSnapshot.getValue(String.class);
                 tvUsernameDrawer.setText(username);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        //Mengambil data email yang login
-        DatabaseReference eMail = mDBuser.child(mAuth.getCurrentUser().getUid()).child("email");
-        eMail.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String email = dataSnapshot.getValue(String.class);
-                tvEmailDrawer.setText(email);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        //Mengambil informasi jumlah notes
-        DatabaseReference dbNote = mDB.getReference().child("note").child(mAuth.getCurrentUser().getUid());
-        dbNote.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Long jumlahNote = dataSnapshot.getChildrenCount();
-                allMemo = Long.toString(jumlahNote);
-                Log.d("FirebaseCounter", allMemo);
             }
 
             @Override

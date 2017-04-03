@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.AddMemo"
-    android:orientation="vertical">
-
-    <EditText
-        android:id="@+id/editTextContent"
+    tools:context="id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.AddMemo">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginRight="70dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editTextContent"
+            android:layout_width="match_parent"
+            android:layout_marginRight="70dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine|text"
+            android:padding="11dp" />
+
+        <TextView
+            android:id="@+id/textViewChar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextContentedit"
+            android:layout_marginRight="70dp"
+            android:padding="4dp"
+            android:text="0 Character"
+            android:textAlignment="textEnd" />
+
+    </LinearLayout>
+
+
+    <ImageButton
+        android:id="@+id/voice"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine|text"
-        android:padding="11dp" />
-
-    <TextView
-        android:id="@+id/textViewChar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:layout_marginRight="70dp"
-        android:text="0 Character"
-        android:textAlignment="textEnd" />
-
-</LinearLayout>
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_voice"
+        android:layout_gravity="right"
+        android:background="@color/colorAccent"/>
+</android.support.design.widget.CoordinatorLayout>

@@ -1,7 +1,10 @@
 package id.sch.smktelkom_mlg.project2.xirpl303131527.mynote;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,7 +13,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +27,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class AddMemo extends AppCompatActivity {
+    private static final int REQ_CODE_SPEECH_INPUT = 1000;
     private FirebaseDatabase mDB;
     private DatabaseReference mDBmemo, mDBmemoUser;
     private FirebaseAuth mAuth;
@@ -59,7 +67,7 @@ public class AddMemo extends AppCompatActivity {
         etContentNote = (EditText) findViewById(R.id.editTextContent);
         etContentNote.addTextChangedListener(etContentNoteWatcher);
         tvChar = (TextView) findViewById(R.id.textViewChar);
-
+        ImageButton voice = (ImageButton) findViewById(R.id.voice); 
         mAuth = FirebaseAuth.getInstance();
         mDB = FirebaseDatabase.getInstance();
 
@@ -93,7 +101,28 @@ public class AddMemo extends AppCompatActivity {
                 Log.d("FirebaseError", databaseError.getMessage());
             }
         });
+        
+        voice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AskSpeech();
+            }
+        });
 
+    }
+
+    private void AskSpeech() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                "Hi speak something");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+
+        }
     }
 
     @Override
@@ -157,5 +186,23 @@ public class AddMemo extends AppCompatActivity {
 
     public void onSuperBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    etContentNote.setText(result.get(0));
+                }
+                break;
+            }
+
+        }
     }
 }
