@@ -13,7 +13,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,10 +26,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.About;
-import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Event;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Goals;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.My;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Reminder;
+import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.chat;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -63,17 +62,8 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         int id = item.getItemId();
-                        Fragment fragment = null;
-                        if (id == R.id.nav_camera) {
-                           fragment = new My();
-                        } else if (id == R.id.nav_gallery) {
-                            fragment = new Reminder();
-                        } else if (id == R.id.nav_slideshow) {
-                            fragment = new Goals();
-                        } else if (id == R.id.nav_manage) {
-                            fragment = new Event();
-                        }
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitNow();
+                        changePage(id);
+
                         return true;
                     }
                 });
@@ -84,6 +74,24 @@ public class MainActivity extends AppCompatActivity
         mDBuser = mDB.getReference().child("user_info");
 
         retrieveData();
+        changePage(R.id.nav_note);
+        navigationView.setCheckedItem(R.id.nav_note);
+    }
+
+    private void changePage(int id) {
+
+        Fragment fragment = null;
+        if (id == R.id.nav_note) {
+            fragment = new My();
+        } else if (id == R.id.nav_reminder) {
+            fragment = new Reminder();
+        } else if (id == R.id.nav_mygoals) {
+            fragment = new Goals();
+        } else if (id == R.id.nav_chat) {
+            fragment = new chat();
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitNow();
+
     }
 
     @Override

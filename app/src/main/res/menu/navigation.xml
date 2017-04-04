@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_camera"
+        android:id="@+id/nav_note"
         android:icon="@drawable/ic_note"
         android:title="Note" />
     <item
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_reminder"
         android:icon="@drawable/ic_remind"
         android:title="Reminder" />
     <item
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_mygoals"
         android:icon="@drawable/ic_goals"
         android:title="My Goals" />
     <item
-        android:id="@+id/nav_manage"
-        android:icon="@drawable/ic_event"
-        android:title="Event" />
+        android:id="@+id/nav_chat"
+        android:icon="@drawable/ic_chat"
+        android:title="Chat" />
 </menu>

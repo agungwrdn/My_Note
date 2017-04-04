@@ -39,7 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditReminder" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity
@@ -48,7 +47,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Landing" />
         <activity android:name=".AddMemo" />
-        <activity android:name=".EditMemo"></activity>
+        <activity android:name=".EditMemo" />
+        <activity android:name=".AddtodoList" />
+        <activity android:name=".Chatgroup"></activity>
     </application>
 
 </manifest>
