@@ -2,9 +2,6 @@ package id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.model;
 
 import com.google.firebase.database.Exclude;
 
-/**
- * Created by Marcel on 11/7/2015.
- */
 public class ChatMessage {
 
     private String message;

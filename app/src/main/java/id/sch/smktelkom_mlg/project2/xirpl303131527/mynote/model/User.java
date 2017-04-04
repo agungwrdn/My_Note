@@ -2,10 +2,6 @@ package id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.model;
 
 import com.google.firebase.database.Exclude;
 
-/**
- * @author Marcelino Yax-marce7j@gmail.com-Android Developer
- *         Created on 12/23/2016.
- */
 
 public class User {
 
