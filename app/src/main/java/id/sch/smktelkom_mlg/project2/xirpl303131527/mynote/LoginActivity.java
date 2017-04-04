@@ -1,127 +1,129 @@
 package id.sch.smktelkom_mlg.project2.xirpl303131527.mynote;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.TypedValue;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.jaredrummler.android.device.DeviceName;
-
-import java.text.DateFormat;
-import java.util.Date;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.FireChatHelper.ChatHelper;
+import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.adapter.UsersChatAdapter;
 
 public class LoginActivity extends AppCompatActivity {
-    private TextView tvLoginTitle, tvGoRegister;
-    private EditText etEmail, etPassword;
-    private Button btLogin;
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    @BindView(R.id.edit_text_email_login) EditText mUserEmail;
+    @BindView(R.id.edit_text_password_log_in) EditText mUserPassWord;
+
     private FirebaseAuth mAuth;
-    private FirebaseDatabase mDB;
-    private DatabaseReference mDBuser;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDB = FirebaseDatabase.getInstance();
-        mDBuser = mDB.getReference().child("user_info");
-
-        etEmail = (EditText) findViewById(R.id.editTextLoginEmail);
-        etPassword = (EditText) findViewById(R.id.editTextLoginPassword);
-        btLogin = (Button) findViewById(R.id.buttonLogin);
-        btLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doLogin();
-            }
-        });
-
-        tvLoginTitle = (TextView) findViewById(R.id.textViewLoginTitle);
-        //Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/yananeka.ttf");
-        //tvLoginTitle.setTypeface(custom_font);
-        tvLoginTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
-
-        tvGoRegister = (TextView) findViewById(R.id.textViewGoRegister);
-        tvGoRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent s = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(s);
-                finish();
-            }
-        });
+        bindButterKnife();
+        setAuthInstance();
 
     }
 
-    private void doLogin() {
-        String email = etEmail.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
+    private void bindButterKnife() {
+        ButterKnife.bind(this);
+    }
 
-        if (TextUtils.isEmpty(email)) {
-            etEmail.setError(getResources().getString(R.string.email_empty));
-            return;
+    private void setAuthInstance() {
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    @OnClick(R.id.btn_login)
+    public void logInClickListener(Button button) {
+        onLogInUser();
+    }
+
+    @OnClick(R.id.btn_register)
+    public void registerClickListener(Button button) {
+        goToRegisterActivity();
+    }
+
+    private void onLogInUser() {
+        if(getUserEmail().equals("") || getUserPassword().equals("")){
+            showFieldsAreRequired();
+        }else {
+            logIn(getUserEmail(), getUserPassword());
         }
-        if (TextUtils.isEmpty(password)) {
-            etPassword.setError(getResources().getString(R.string.password_empty));
-            return;
-        }
+    }
 
-        btLogin.setText(getResources().getString(R.string.please_wait));
-        btLogin.setEnabled(false);
+    private void showFieldsAreRequired() {
+        showAlertDialog(getString(R.string.error_incorrect_email_pass),true);
+    }
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+    private void logIn(String email, String password) {
+
+        showAlertDialog("Log In...",false);
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
-            public void onSuccess(AuthResult authResult) {
-                DatabaseReference lastLogin = mDBuser.child(mAuth.getCurrentUser().getUid()).child("last_login");
-                String deviceName = DeviceName.getDeviceName(); //Mengambil nama device
+            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                Date date = new Date();
-                String time = DateFormat.getDateTimeInstance().format(date);
+                dismissAlertDialog();
 
-                lastLogin.child("time").setValue(time);
-                lastLogin.child("device").setValue(deviceName);
-
-                btLogin.setText(getResources().getString(R.string.success));
-
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
-
-                finish();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                btLogin.setText(getResources().getString(R.string.login_title));
-                btLogin.setEnabled(true);
-
-                new AlertDialog.Builder(LoginActivity.this)
-                        .setTitle(getResources().getString(R.string.failed))
-                        .setMessage(getResources().getString(R.string.failed1_message) + ". " + e.getMessage())
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
+                if(task.isSuccessful()){
+                    setUserOnline();
+                    goToMainActivity();
+                }else {
+                    showAlertDialog(task.getException().getMessage(),true);
+                }
             }
         });
+    }
+
+    private void setUserOnline() {
+        if(mAuth.getCurrentUser()!=null ) {
+            String userId = mAuth.getCurrentUser().getUid();
+            FirebaseDatabase.getInstance()
+                    .getReference().
+                    child("users").
+                    child(userId).
+                    child("connection").
+                    setValue(UsersChatAdapter.ONLINE);
+        }
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void goToRegisterActivity() {
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    private String getUserEmail() {
+        return mUserEmail.getText().toString().trim();
+    }
+
+    private String getUserPassword() {
+        return mUserPassWord.getText().toString().trim();
+    }
+
+    private void showAlertDialog(String message, boolean isCancelable){
+        dialog = ChatHelper.buildAlertDialog(getString(R.string.login_error_title), message,isCancelable,LoginActivity.this);
+        dialog.show();
+    }
+
+    private void dismissAlertDialog() {
+        dialog.dismiss();
     }
 }

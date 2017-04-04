@@ -70,6 +70,15 @@
     <string name="not_saved">Item not saved</string>
     <string name="note_saved">Note saved</string>
     <string name="edit_note">Edit Note</string>
-    <string name="no_notes">NO ITEM YET</string>
+    <string name="no_notes">Not Item Found</string>
+
+    <!-- LogInActivity-->
+    <string name="login_error_message">Please make sure you enter a username and password!</string>
+    <string name="login_error_title">Checking</string>
+    <string name="title_activity_chat">Chat</string>
+
+    <!-- RegisterActivity-->
+    <string name="error_fields_empty">Please make sure you enter display name, email and password!</string>
+    <string name="error_incorrect_email_pass">Provide correct email and password with more than 6 characters.</string>
 </resources>
 

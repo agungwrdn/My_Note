@@ -1,158 +1,174 @@
 package id.sch.smktelkom_mlg.project2.xirpl303131527.mynote;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.TypedValue;
-import android.view.View;
+import android.support.annotation.NonNull;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.DateFormat;
 import java.util.Date;
 
-public class RegisterActivity extends AppCompatActivity {
-    private TextView tvRegTitle, tvGoLogin;
-    private EditText etUsername, etEmail, etPassword;
-    private Button btRegister;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.FireChatHelper.ChatHelper;
+import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.adapter.UsersChatAdapter;
+import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.model.User;
+
+public class RegisterActivity extends Activity {
+
+    private static final String TAG = RegisterActivity.class.getSimpleName();
+
+    @BindView(R.id.edit_text_display_name)
+    EditText mUserFirstNameRegister;
+    @BindView(R.id.edit_text_email_register)
+    EditText mUserEmailRegister;
+    @BindView(R.id.edit_text_password_register)
+    EditText mUserPassWordRegister;
+
     private FirebaseAuth mAuth;
-    private FirebaseDatabase mDB;
-    private DatabaseReference mDBuser;
+    private DatabaseReference mDatabase;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDB = FirebaseDatabase.getInstance();
-        mDBuser = mDB.getReference().child("user_info");
-
-        tvRegTitle = (TextView) findViewById(R.id.textViewRegTitle);
-        tvRegTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
-
-        etUsername = (EditText) findViewById(R.id.editTextRegUsername);
-        etEmail = (EditText) findViewById(R.id.editTextRegEmail);
-        etPassword = (EditText) findViewById(R.id.editTextRegPassword);
-        btRegister = (Button) findViewById(R.id.buttonRegister);
-        btRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                doRegister();
-            }
-        });
-
-        tvGoLogin = (TextView) findViewById(R.id.textViewGoLogin);
-        tvGoLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentLogin();
-            }
-        });
+        hideActionBar();
+        bindButterKnife();
+        setAuthInstance();
+        setDatabaseInstance();
     }
 
-    private void intentLogin() {
-        Intent s = new Intent(RegisterActivity.this, LoginActivity.class);
-        startActivity(s);
+    private void hideActionBar() {
+       // this.getActionBar().hide();
+    }
+
+    private void bindButterKnife() {
+        ButterKnife.bind(this);
+    }
+
+    private void setAuthInstance() {
+        mAuth = FirebaseAuth.getInstance();
+    }
+
+    private void setDatabaseInstance() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
+
+    @OnClick(R.id.btn_register_user)
+    public void registerUserClickListener(Button button) {
+        onRegisterUser();
+    }
+
+    @OnClick(R.id.btn_cancel_register)
+    public void cancelClickListener(Button button) {
         finish();
     }
 
-    private void doRegister() {
-        final String username = etUsername.getText().toString().trim();
-        final String email = etEmail.getText().toString().trim();
-        final String password = etPassword.getText().toString().trim();
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-        if (TextUtils.isEmpty(username)) {
-            etUsername.setError(getResources().getString(R.string.username_empty));
-            return;
+    private void onRegisterUser() {
+        if(getUserDisplayName().equals("") || getUserEmail().equals("") || getUserPassword().equals("")){
+            showFieldsAreRequired();
+        }else if(isIncorrectEmail(getUserEmail()) || isIncorrectPassword(getUserPassword())) {
+            showIncorrectEmailPassword();
+        }else {
+            signUp(getUserEmail(), getUserPassword());
         }
-        if (username.length() <= 5) {
-            etUsername.setError(getResources().getString(R.string.username6));
-            return;
-        }
-        if (TextUtils.isEmpty(email)) {
-            etEmail.setError(getResources().getString(R.string.email_empty));
-            return;
-        }
-        if (!email.matches(emailPattern)) {
-            etEmail.setError(getResources().getString(R.string.email_notmatch));
-            return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            etPassword.setError(getResources().getString(R.string.password_empty));
-            return;
-        }
-        if (password.length() <= 7) {
-            etPassword.setError(getResources().getString(R.string.password8));
-            return;
-        }
+    }
 
-        btRegister.setText(getResources().getString(R.string.please_wait));
-        btRegister.setEnabled(false);
+    private boolean isIncorrectEmail(String userEmail) {
+        return !android.util.Patterns.EMAIL_ADDRESS.matcher(userEmail).matches();
+    }
 
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        String UID = mAuth.getCurrentUser().getUid();
-                        DatabaseReference currentUser = mDBuser.child(UID);
-                        currentUser.child("username").setValue(username);
-                        currentUser.child("email").setValue(email);
-                        currentUser.child("password").setValue(password);
+    private boolean isIncorrectPassword(String userPassword) {
+        return !(userPassword.length() >= 6);
+    }
 
-                        Date date = new Date();
-                        String time = DateFormat.getDateTimeInstance().format(date);
+    private void showIncorrectEmailPassword() {
+        showAlertDialog(getString(R.string.error_incorrect_email_pass), true);
+    }
 
-                        currentUser.child("date_created").setValue(time);
-                        btRegister.setEnabled(true);
+    private void showFieldsAreRequired() {
+        showAlertDialog(getString(R.string.error_fields_empty), true);
+    }
 
-                        new AlertDialog.Builder(RegisterActivity.this)
-                                .setTitle(getResources().getString(R.string.success))
-                                .setMessage(getResources().getString(R.string.success_message))
-                                .setCancelable(false)
-                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        etUsername.setText("");
-                                        etEmail.setText("");
-                                        etPassword.setText("");
+    private void showAlertDialog(String message, boolean isCancelable){
 
-                                        intentLogin();
-                                    }
-                                }).show();
-                        mAuth.signOut();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+        dialog = ChatHelper.buildAlertDialog(getString(R.string.login_error_title),message,isCancelable,RegisterActivity.this);
+        dialog.show();
+    }
+
+    private String getUserDisplayName() {
+        return mUserFirstNameRegister.getText().toString().trim();
+    }
+
+    private String getUserEmail() {
+        return mUserEmailRegister.getText().toString().trim();
+    }
+
+    private String getUserPassword() {
+        return mUserPassWordRegister.getText().toString().trim();
+    }
+
+
+    private void signUp(String email, String password) {
+
+        showAlertDialog("Registering...",true);
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                btRegister.setText(getResources().getString(R.string.reg_title));
-                btRegister.setEnabled(true);
+            public void onComplete(@NonNull Task<AuthResult> task) {
 
-                new AlertDialog.Builder(RegisterActivity.this)
-                        .setTitle(getResources().getString(R.string.failed))
-                        .setMessage(getResources().getString(R.string.failed_message))
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                dismissAlertDialog();
 
-                            }
-                        }).show();
+                if(task.isSuccessful()){
+                    onAuthSuccess(task.getResult().getUser());
+                }else {
+                    showAlertDialog(task.getException().getMessage(), true);
+                }
             }
         });
     }
+
+    private void dismissAlertDialog() {
+        dialog.dismiss();
+    }
+
+    private void onAuthSuccess(FirebaseUser user) {
+        createNewUser(user.getUid());
+        goToMainActivity();
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    private void createNewUser(String userId){
+        User user = buildNewUser();
+        mDatabase.child("users").child(userId).setValue(user);
+    }
+
+    private User buildNewUser() {
+        return new User(
+                getUserDisplayName(),
+                getUserEmail(),
+                UsersChatAdapter.ONLINE,
+                ChatHelper.generateRandomAvatarForUser(),
+                new Date().getTime()
+                );
+    }
+
 }

@@ -40,7 +40,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -49,7 +48,8 @@
         <activity android:name=".AddMemo" />
         <activity android:name=".EditMemo" />
         <activity android:name=".AddtodoList" />
-        <activity android:name=".Chatgroup"></activity>
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".ui.ChatActivity"/>
     </application>
 
 </manifest>

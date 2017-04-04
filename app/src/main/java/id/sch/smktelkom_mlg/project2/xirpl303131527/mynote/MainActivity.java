@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseDatabase mDB;
     private DatabaseReference mDBuser;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         tvUsernameDrawer = (TextView) hView.findViewById(R.id.textViewUsernameDrawer);
         mAuth = FirebaseAuth.getInstance();
         mDB = FirebaseDatabase.getInstance();
-        mDBuser = mDB.getReference().child("user_info");
+        mDBuser = mDB.getReference().child("users");
 
         retrieveData();
         changePage(R.id.nav_note);
@@ -162,7 +163,7 @@ public class MainActivity extends AppCompatActivity
 
     private void retrieveData() {
         //Mengambil data username yang login
-        DatabaseReference userName = mDBuser.child(mAuth.getCurrentUser().getUid()).child("username");
+        DatabaseReference userName = mDBuser.child(mAuth.getCurrentUser().getUid()).child("displayName");
         userName.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

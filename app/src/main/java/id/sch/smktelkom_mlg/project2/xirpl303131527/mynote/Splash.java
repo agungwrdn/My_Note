@@ -18,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Splash extends AppCompatActivity {
-    private String username = "";
+    private String users = "";
     private FirebaseDatabase mDB;
     private FirebaseAuth mAuth;
 
@@ -60,15 +60,15 @@ public class Splash extends AppCompatActivity {
     }
 
     private void handleLoading() {
-        DatabaseReference mDBuser = mDB.getReference().child("user_info").child(mAuth.getCurrentUser().getUid().toString());
+        DatabaseReference mDBuser = mDB.getReference().child("users").child(mAuth.getCurrentUser().getUid().toString());
 
-        DatabaseReference dbUsername = mDBuser.child("username");
+        DatabaseReference dbUsername = mDBuser.child("email");
         dbUsername.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                username = dataSnapshot.getValue(String.class);
+                users = dataSnapshot.getValue(String.class);
 
-                if (!TextUtils.isEmpty(username)) {
+                if (!TextUtils.isEmpty(users)) {
                     Intent u = new Intent(Splash.this, MainActivity.class);
                     startActivity(u);
                     finish();
