@@ -9,7 +9,7 @@ public class memo {
         //empty constructor
     }
 
-    public memo(String title, String content, String time) {
+    public memo(String content, String time) {
         this.content = content;
         this.time = time;
     }

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bacground"
     tools:context="id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.Landing">
 
     <LinearLayout

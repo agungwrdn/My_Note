@@ -71,6 +71,7 @@
     <string name="note_saved">Note saved</string>
     <string name="edit_note">Edit Note</string>
     <string name="no_notes">Not Item Found</string>
+    <string name="done">Done</string>
 
     <!-- LogInActivity-->
     <string name="login_error_message">Please make sure you enter a username and password!</string>
@@ -80,5 +81,7 @@
     <!-- RegisterActivity-->
     <string name="error_fields_empty">Please make sure you enter display name, email and password!</string>
     <string name="error_incorrect_email_pass">Provide correct email and password with more than 6 characters.</string>
+    <string name="menu_checkbox_undo">Undo</string>
+    <string name="menu_add_5_items">Add 5 items</string>
 </resources>
 

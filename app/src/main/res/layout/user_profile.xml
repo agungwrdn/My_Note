@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
     android:background="#FFFFFF">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -18,7 +18,7 @@
         android:id="@+id/text_view_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Marcelino"
+        tools:text="Rawon"
         android:textStyle="bold"
         android:textColor="@color/text_color_icon"
         android:layout_alignBottom="@+id/img_avatar"

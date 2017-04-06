@@ -109,6 +109,18 @@ public class Goals extends Fragment {
         };
     }
 
+    private void logout() {
+        showProgressBarForUsers();
+        setUserOffline();
+        mAuth.signOut();
+    }
+    private void setUserOffline() {
+        if(mAuth.getCurrentUser()!=null ) {
+            String userId = mAuth.getCurrentUser().getUid();
+            mUserRefDatabase.child(userId).child("connection").setValue(UsersChatAdapter.OFFLINE);
+        }
+    }
+
     private void setUserData(FirebaseUser user) {
         mCurrentUserUid = user.getUid();
     }
@@ -151,19 +163,6 @@ public class Goals extends Fragment {
     private void clearCurrentUsers() {
         mUsersChatAdapter.clear();
         mUsersKeyList.clear();
-    }
-
-    private void logout() {
-        showProgressBarForUsers();
-        setUserOffline();
-        mAuth.signOut();
-    }
-
-    private void setUserOffline() {
-        if(mAuth.getCurrentUser()!=null ) {
-            String userId = mAuth.getCurrentUser().getUid();
-            mUserRefDatabase.child(userId).child("connection").setValue(UsersChatAdapter.OFFLINE);
-        }
     }
 
     private void showProgressBarForUsers(){

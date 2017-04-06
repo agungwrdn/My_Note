@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.adapter.UsersChatAdapter;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.About;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Goals;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.My;
@@ -33,10 +34,12 @@ import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.chat;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
     TextView tvUsernameDrawer;
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDB;
     private DatabaseReference mDBuser;
+    private DatabaseReference mUserRefDatabase;
 
 
     @Override
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setUsersDatabase();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -95,6 +99,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void setUsersDatabase() {
+        mUserRefDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -137,7 +145,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_about) {
             fragment = new About();
         } else if (id == R.id.nav_logout) {
-            fragment = new My();
 
             new AlertDialog.Builder(this)
                     .setTitle(getResources().getString(R.string.logout))
@@ -146,19 +153,36 @@ public class MainActivity extends AppCompatActivity
                     .setPositiveButton(getResources().getString(R.string.yes_option), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            mAuth.signOut();
-
-                            Intent logout = new Intent(MainActivity.this, Splash.class);
-                            startActivity(logout);
-                            finish();
+                            logout();
                         }
                     }).setNegativeButton(getResources().getString(R.string.cancel_option), null).show();
+
+            fragment = new My();
 
         }
             getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitNow();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void logout() {
+        mAuth.signOut();
+        setUserOffline();
+        gotoSplash();
+    }
+
+    private void gotoSplash() {
+        Intent logout = new Intent(MainActivity.this, Splash.class);
+        startActivity(logout);
+        finish();
+    }
+
+    private void setUserOffline() {
+        if(mAuth.getCurrentUser()!=null ) {
+            String userId = mAuth.getCurrentUser().getUid();
+            mUserRefDatabase.child(userId).child("connection").setValue(UsersChatAdapter.OFFLINE);
+        }
     }
 
     private void retrieveData() {
@@ -178,4 +202,6 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
+
 }
