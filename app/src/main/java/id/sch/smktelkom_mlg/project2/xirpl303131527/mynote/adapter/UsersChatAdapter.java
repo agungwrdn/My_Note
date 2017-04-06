@@ -108,7 +108,6 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
             mUserDisplayName = (TextView)itemView.findViewById(R.id.text_view_display_name);
             mStatusConnection = (TextView)itemView.findViewById(R.id.text_view_connection_status);
             mContextViewHolder = context;
-
             itemView.setOnClickListener(this);
         }
 
@@ -135,6 +134,8 @@ public class UsersChatAdapter extends RecyclerView.Adapter<UsersChatAdapter.View
             chatIntent.putExtra(ExtraIntent.EXTRA_CURRENT_USER_ID, mCurrentUserId);
             chatIntent.putExtra(ExtraIntent.EXTRA_RECIPIENT_ID, user.getRecipientId());
             chatIntent.putExtra(ExtraIntent.EXTRA_CHAT_REF, chatRef);
+            chatIntent.putExtra(ExtraIntent.EXTRA_USERNAME, mUserDisplayName.getText().toString());
+            chatIntent.putExtra(ExtraIntent.EXTRA_STATUS, mStatusConnection.getText().toString());
 
             // Start new activity
             mContextViewHolder.startActivity(chatIntent);

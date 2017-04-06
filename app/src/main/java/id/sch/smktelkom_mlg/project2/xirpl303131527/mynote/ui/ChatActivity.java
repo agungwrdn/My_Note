@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +33,8 @@ public class ChatActivity extends Activity {
     @BindView(R.id.edit_text_message)
     EditText mUserMessageChatText;
 
-
+    private String mStatus;
+    private String mUsername;
     private String mRecipientId;
     private String mCurrentUserId;
     private MessageChatAdapter messageChatAdapter;
@@ -48,6 +50,12 @@ public class ChatActivity extends Activity {
         setDatabaseInstance();
         setUsersId();
         setChatRecyclerView();
+
+        TextView username = (TextView) findViewById(R.id.username);
+        username.setText(mUsername);
+
+        TextView status = (TextView) findViewById(R.id.status);
+        status.setText(mStatus);
     }
 
     private void bindButterKnife() {
@@ -59,8 +67,13 @@ public class ChatActivity extends Activity {
     }
 
     private void setUsersId() {
+
+        mUsername = getIntent().getStringExtra(ExtraIntent.EXTRA_USERNAME);
         mRecipientId = getIntent().getStringExtra(ExtraIntent.EXTRA_RECIPIENT_ID);
         mCurrentUserId = getIntent().getStringExtra(ExtraIntent.EXTRA_CURRENT_USER_ID);
+        mStatus = getIntent().getStringExtra(ExtraIntent.EXTRA_STATUS);
+
+
     }
 
     private void setChatRecyclerView() {

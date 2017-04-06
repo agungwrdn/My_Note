@@ -3,9 +3,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context="id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.ui.ChatActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimary">
 
+        <TextView
+            android:layout_marginLeft="6dp"
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/username"
+            android:textSize="24dp"/>
+
+        <TextView
+            android:layout_marginLeft="6dp"
+            android:id="@+id/status"
+            android:paddingTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Online"
+            android:layout_below="@+id/username"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="60dp"
         android:id="@+id/recycler_view_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,36 +44,37 @@
         android:layout_height="2dp"
         android:layout_gravity="bottom"
         android:layout_above="@+id/senderContainer"/>
+
     <RelativeLayout
         android:id="@+id/senderContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:paddingBottom="4dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:paddingTop="8dp">
+        android:paddingTop="8dp"
+        android:layout_marginBottom="15dp">
 
         <EditText
             android:id="@+id/edit_text_message"
             android:layout_marginLeft="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:textColor="#555555"
             android:textSize="14sp"
             android:hint="Type your message"
             android:gravity="top"
             android:layout_toStartOf="@+id/btn_send_message"
-            />
-        <Button
+            android:layout_alignParentBottom="true" />
+        <ImageView
+            android:src="@drawable/ic_send"
             android:id="@+id/btn_send_message"
             android:layout_marginRight="10dp"
-            android:textColor="#FFFFFF"
             android:layout_width="72dp"
             android:layout_height="40dp"
-            android:text="Send"
-            android:background="@color/colorAccent"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
     <ProgressBar
