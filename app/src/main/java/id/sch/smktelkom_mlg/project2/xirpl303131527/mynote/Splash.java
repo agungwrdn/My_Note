@@ -44,7 +44,7 @@ public class Splash extends AppCompatActivity {
         }
 
         if (mAuth.getCurrentUser() == null) {
-            Intent i = new Intent(Splash.this, Landing.class);
+            Intent i = new Intent(Splash.this, LoginActivity.class);
             startActivity(i);
             finish();
         } else {

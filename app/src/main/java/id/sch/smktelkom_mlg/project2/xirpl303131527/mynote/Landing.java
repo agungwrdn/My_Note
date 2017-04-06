@@ -2,10 +2,14 @@ package id.sch.smktelkom_mlg.project2.xirpl303131527.mynote;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.intro.IntroActivity;
 
 public class Landing extends AppCompatActivity {
 
@@ -38,5 +42,7 @@ public class Landing extends AppCompatActivity {
                 finish();
             }
         });
+
+
     }
 }

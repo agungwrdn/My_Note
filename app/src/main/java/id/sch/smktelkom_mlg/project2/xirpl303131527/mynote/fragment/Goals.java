@@ -69,8 +69,8 @@ public class Goals extends Fragment {
         setUserRecyclerView();
         setUsersKeyList();
         setAuthListener();
-        return view;
 
+        return view;
     }
 
     private void setAuthInstance() {
