@@ -52,7 +52,7 @@ public class My extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_my,
                 container, false);
         tvNoNote = (TextView) rootView.findViewById(R.id.textViewNoNote);
-        FloatingActionButton Madd = (FloatingActionButton) rootView.findViewById(R.id.buttonadd);
+        FloatingActionButton Madd = (FloatingActionButton) rootView.findViewById(R.id.btnadd);
         Madd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

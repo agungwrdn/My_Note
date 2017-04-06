@@ -9,13 +9,16 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,12 +28,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.adapter.UsersChatAdapter;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.About;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Goals;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.My;
 import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.Reminder;
-import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.chat;
+import id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.model.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,7 +45,6 @@ public class MainActivity extends AppCompatActivity
     private FirebaseDatabase mDB;
     private DatabaseReference mDBuser;
     private DatabaseReference mUserRefDatabase;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +96,6 @@ public class MainActivity extends AppCompatActivity
             fragment = new Reminder();
         } else if (id == R.id.nav_mygoals) {
             fragment = new Goals();
-        } else if (id == R.id.nav_chat) {
-            fragment = new chat();
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commitNow();
 

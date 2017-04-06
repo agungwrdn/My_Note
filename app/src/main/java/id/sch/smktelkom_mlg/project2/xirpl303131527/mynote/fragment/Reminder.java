@@ -2,18 +2,10 @@ package id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment;
 
 
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -90,18 +82,14 @@ public class Reminder extends Fragment {
                 Log.d("FirebaseCounter", "Jumlah child " + strValue);
                 if (jumlahChild == 0) {
                     Log.d("FirebaseCounter", "No item yet !");
-                   // tvNoTodo.setVisibility(View.VISIBLE);
                 } else {
-                    //tvNoTodo.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("FirebaseCounter", databaseError.getMessage());
-                //tvNoTodo.setVisibility(View.VISIBLE);
-                //tvNoTodo.setText("Error." + " " + databaseError.getMessage());
-            }
+             }
         });
         return view;
     }
@@ -131,9 +119,9 @@ public class Reminder extends Fragment {
                 //viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                   //  @Override
                     //public void onClick(View v) {
-                      //  Intent r = new Intent(getActivity(), EditTodoActivity.class);
+                      //  Intent go = new Intent(getActivity(), EditTodoActivity.class);
                         //r.putExtra("note_key", note_key);
-                       // startActivity(r);
+                       // startActivity(go);
                    // }
                 //});
 

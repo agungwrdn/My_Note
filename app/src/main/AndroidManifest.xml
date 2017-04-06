@@ -35,6 +35,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -48,6 +49,17 @@
         <activity android:name=".EditMemo" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ui.ChatActivity" />
-        <activity android:name=".AddTarget"/>
+        <activity android:name=".AddTarget" />
+
+        <receiver android:name=".widget.WidgetTarget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_target_info" />
+        </receiver>
     </application>
+
 </manifest>

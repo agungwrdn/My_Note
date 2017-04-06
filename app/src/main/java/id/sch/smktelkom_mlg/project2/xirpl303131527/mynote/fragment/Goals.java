@@ -70,6 +70,7 @@ public class Goals extends Fragment {
         setUsersKeyList();
         setAuthListener();
         return view;
+
     }
 
     private void setAuthInstance() {

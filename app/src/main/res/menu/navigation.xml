@@ -12,8 +12,4 @@
         android:id="@+id/nav_mygoals"
         android:icon="@drawable/ic_goals"
         android:title="Chat" />
-    <item
-        android:id="@+id/nav_chat"
-        android:icon="@drawable/ic_chat"
-        android:title="Calendar" />
 </menu>

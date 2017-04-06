@@ -3,19 +3,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.fragment.My">
-    <TextView
-        android:id="@+id/textViewNoNote"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="17dp"
-        android:text="@string/no_notes"
-        android:textAlignment="center"
-        android:textColor="#BDBDBD"
-        android:textSize="22sp"
-        android:textStyle="italic"
-        android:visibility="gone" />
 
-    <include layout="@layout/content_memo"/>
-    <include layout="@layout/fab"/>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textViewNoNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="17dp"
+            android:text="@string/no_notes"
+            android:textAlignment="center"
+            android:textColor="#BDBDBD"
+            android:textSize="22sp"
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+        <include layout="@layout/content_memo"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnadd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="22dp"
+            android:src="@drawable/ic_add"/>
+
+    </RelativeLayout>
+
 </FrameLayout>

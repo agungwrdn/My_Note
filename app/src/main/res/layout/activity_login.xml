@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,55 +10,64 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:weightSum="1"
-    tools:context="id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.LoginActivity"
-    android:orientation="vertical">
+    tools:context="id.sch.smktelkom_mlg.project2.xirpl303131527.mynote.LoginActivity">
 
-    <TextView
-        android:id="@+id/titleChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:textSize="30sp"
-        android:layout_marginTop="@dimen/log_in_margin"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
 
-    <EditText
-        android:id="@+id/edit_text_email_login"
-        android:inputType="textEmailAddress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/log_in_margin"
-        android:layout_marginRight="@dimen/log_in_margin"
-        android:layout_marginTop="40dp"
-        android:hint="email"/>
+        <TextView
+            android:id="@+id/titleChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/log_in_margin"
+            android:text="Login"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/edit_text_password_log_in"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:layout_marginLeft="@dimen/log_in_margin"
-        android:layout_marginRight="@dimen/log_in_margin"
-        android:hint="password"/>
+        <EditText
+            android:id="@+id/edit_text_email_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/log_in_margin"
+            android:layout_marginRight="@dimen/log_in_margin"
+            android:layout_marginTop="40dp"
+            android:hint="email"
+            android:inputType="textEmailAddress" />
 
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="LogIn"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="@dimen/log_in_margin"
-        android:layout_marginRight="@dimen/log_in_margin"/>
+        <EditText
+            android:id="@+id/edit_text_password_log_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/log_in_margin"
+            android:layout_marginRight="@dimen/log_in_margin"
+            android:ems="10"
+            android:hint="password"
+            android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="@dimen/log_in_margin"
-        android:layout_marginRight="@dimen/log_in_margin"/>
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/log_in_margin"
+            android:layout_marginRight="@dimen/log_in_margin"
+            android:layout_marginTop="10dp"
+            android:text="LogIn" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/log_in_margin"
+            android:layout_marginRight="@dimen/log_in_margin"
+            android:layout_marginTop="8dp"
+            android:text="Register" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

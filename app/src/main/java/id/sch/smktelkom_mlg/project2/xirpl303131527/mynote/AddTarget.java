@@ -1,6 +1,7 @@
 package id.sch.smktelkom_mlg.project2.xirpl303131527.mynote;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -24,19 +27,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
-public class AddTarget extends AppCompatActivity {
+public class AddTarget extends AppCompatActivity implements View.OnClickListener {
     private FirebaseDatabase mDB;
     private DatabaseReference mDBtarget, mDBtargetUser;
     private FirebaseAuth mAuth;
     private Long jumlahData;
     private Integer currentPostId;
+    private int mYear, mMonth, mDay;
 
     private String dbCurrentUser;
 
     private EditText etTitleTarget;
-    private Spinner sTarget;
+    private EditText sTarget;
     private TextView tvChar;
 
     @Override
@@ -44,7 +49,7 @@ public class AddTarget extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_target);
 
-        sTarget = (Spinner) findViewById(R.id.spinner);
+        sTarget = (EditText) findViewById(R.id.tgl);
         etTitleTarget = (EditText) findViewById(R.id.editText);
         mAuth = FirebaseAuth.getInstance();
         mDB = FirebaseDatabase.getInstance();
@@ -81,6 +86,8 @@ public class AddTarget extends AppCompatActivity {
             }
         });
 
+        sTarget.setOnClickListener(this);
+
     }
 
     @Override
@@ -104,7 +111,7 @@ public class AddTarget extends AppCompatActivity {
 
     private void uploadTarget() {
         String title = etTitleTarget.getText().toString();
-        String due = sTarget.getSelectedItem().toString();
+        String due = sTarget.getText().toString();
         Date date = new Date();
         String time = DateFormat.getDateTimeInstance().format(date);
 
@@ -145,5 +152,27 @@ public class AddTarget extends AppCompatActivity {
 
     private void onSuperBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public void onClick(View v) {
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                new DatePickerDialog.OnDateSetListener() {
+
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+
+                        sTarget.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+
+                    }
+                }, mYear, mMonth, mDay);
+        datePickerDialog.show();
     }
 }
