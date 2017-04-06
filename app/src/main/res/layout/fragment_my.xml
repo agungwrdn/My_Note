@@ -22,9 +22,13 @@
             android:textColor="#BDBDBD"
             android:textSize="22sp"
             android:textStyle="italic"
-            android:visibility="gone" />
+            android:visibility="visible"
+            android:layout_above="@+id/btnadd"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="185dp" />
 
-        <include layout="@layout/content_memo"/>
+        <include layout="@layout/content_memo" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnadd"
